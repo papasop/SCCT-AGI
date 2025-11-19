@@ -1,25 +1,64 @@
 # ============================================
-# SCCT-AGI v1 论文验证版 Colab（离线 Mock 版）
-# - 无需 API Key
-# - 完整验证 SCCT-AGI mock 实验
+# SCCT-AGI v2 · 真实 LLM 版（NeurIPS 论文验证用）
+# - 使用 OpenAI 官方 Python SDK
+# - 从 Colab Secret 中读取 OPENAI_API_KEY
+# - 采集真实 LLM trace，计算 λ_B、回归结构–工作量/时间律
 # ============================================
 
-import zlib
-import json
+!pip install -q --upgrade openai matplotlib numpy pandas
+
+import os
 import time
+import json
 import math
 import random
 import re
+import zlib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# 为了可重复性（固定随机种子）
+# 为了可重复性（随机表达式生成用）
 random.seed(2025)
 np.random.seed(2025)
 
 # ============================
-# 1. 压缩与 λ_B 定义（与论文公式一致）
+# 0. 读取 OPENAI_API_KEY
+# ============================
+
+API_KEY = None
+
+# 先尝试从 Colab Secret 读取（你刚刚配置的）
+try:
+    from google.colab import userdata
+    API_KEY = userdata.get("OPENAI_API_KEY")
+except Exception:
+    API_KEY = None
+
+# 如果 Secret 里没有，就再试试环境变量
+if not API_KEY:
+    API_KEY = os.getenv("OPENAI_API_KEY")
+
+if not API_KEY:
+    raise RuntimeError(
+        "未检测到 OPENAI_API_KEY。\n"
+        "请在左侧侧边栏：钥匙图标(Secret) → 添加密钥：\n"
+        "  名称: OPENAI_API_KEY\n"
+        "  值:   你的 OpenAI 密钥\n"
+        "然后重新运行本单元。"
+    )
+
+from openai import OpenAI
+client = OpenAI(api_key=API_KEY)
+
+# 你可以在这里改模型名称
+MODEL_NAME = "gpt-4.1-mini"
+
+print("✅ 已成功读取 OPENAI_API_KEY，当前模型:", MODEL_NAME)
+
+
+# ============================
+# 1. 压缩与 λ_B 定义（与论文一致）
 # ============================
 
 def C_t(s: bytes) -> int:
@@ -48,86 +87,20 @@ def lambda_B(problem_bytes: bytes, trace_bytes: bytes):
     """
     C_p = C_t(problem_bytes)
     C_joint = C_t(problem_bytes + SEP + trace_bytes)
-    C_cond = max(C_joint - C_p - C_SEP, 1)
+    C_cond_raw = C_joint - C_p - C_SEP
+    C_cond = max(C_cond_raw, 1)
     lam = C_cond / (C_p + C_cond)
     return lam, C_cond, C_p
 
-# ============================
-# 2. 本地“算式求值器” + 模拟 LLM 三种思考策略
-# ============================
-
-def eval_expr_python_style(expr: str) -> float:
-    """
-    把表达式里的 ^ 换成 **，然后用 Python eval 计算出数值。
-    仅用于本地模拟，不暴露给外部。
-    """
-    safe_expr = expr.replace("^", "**")
-    # 简单安全检查：只允许数字和运算符
-    if not re.fullmatch(r"[0-9\+\-\*\/\^\(\)\.\s]+", expr.replace("^", "")):
-        raise ValueError(f"非法字符出现在表达式中: {expr}")
-    return eval(safe_expr, {"__builtins__": None}, {})
-
-def build_mock_trace(problem_str: str, strategy: str) -> str:
-    """
-    根据 strategy 构造不同风格的“LLM 轨迹文本”。
-    三种策略：
-      S0_direct      : 只输出结果，无过程（最短 trace）
-      S1_verbose_cot : 极其啰嗦的 step-by-step（最长 trace）
-      S2_compact_cot : 精炼、有结构的 CoT（中等长度）
-    """
-    value = eval_expr_python_style(problem_str)
-
-    if strategy == "S0_direct":
-        # 模拟“直接回答，不给过程”
-        return f"{value}"
-
-    elif strategy == "S1_verbose_cot":
-        # 非常啰嗦的 CoT：重复解释、分行叙述
-        lines = []
-        lines.append(f"我们来非常详细地计算这个表达式：{problem_str}")
-        lines.append("第一步：按照运算优先级，先处理所有幂运算 (^)。")
-        lines.append("第二步：在幂运算结果的基础上，计算所有乘法和除法。")
-        lines.append("第三步：最后执行加减法，得到最终结果。")
-        lines.append(f"经过严格的三步计算，这个算式的最终数值结果是：{value}。")
-        # 人为增加冗余，模拟“思维散乱但正确”
-        for i in range(8):
-            lines.append(
-                f"再次确认第 {i+1} 次：表达式 {problem_str} 的值的确等于 {value}，"
-                "这里我们只是重复说明这一事实，以确保没有遗漏任何细节。"
-            )
-        return "\n".join(lines)
-
-    elif strategy == "S2_compact_cot":
-        # 紧凑 CoT：少量关键步骤
-        return (
-            f"对算式 {problem_str} 按照“先幂运算、再乘除、后加减”的顺序计算，"
-            f"可以得到最终结果为 {value}。"
-        )
-
-    else:
-        raise ValueError(f"Unknown strategy: {strategy}")
-
-def call_llm(problem_str: str, strategy: str):
-    """
-    Mock LLM 版本：
-      - 不调用任何外部 API
-      - 用本地 eval 计算数值
-      - 用不同模板生成 Trace_Token
-    """
-    start = time.perf_counter()
-    trace_text = build_mock_trace(problem_str, strategy)
-    end = time.perf_counter()
-    T = end - start
-    return trace_text, T
 
 # ============================
-# 3. 生成一批算术任务（与日志一致）
+# 2. 任务生成：随机算术表达式
 # ============================
 
 def random_expr(depth=3):
     """
     生成一个带 + - * / ^ 的算术表达式：
-      depth 控制“块”的数量，可视为 N(x) 的 proxy
+      depth 控制“块”的数量，可视为 N(x)
     """
     ops = ["+", "-", "*", "/"]
     parts = []
@@ -164,8 +137,73 @@ problems = build_problem_set()
 print(f"生成问题数量: {len(problems)}")
 print("示例:", problems[0])
 
+
 # ============================
-# 4. 主实验：Mock-LLM + λ_B
+# 3. 调用真实 LLM：三种思考策略
+# ============================
+
+def call_llm(expr: str, strategy: str, model: str = MODEL_NAME):
+    """
+    使用真实 LLM 获取“思维轨迹”：
+      S0_direct      : 只输出最终数字答案
+      S1_verbose_cot : 极其啰嗦的 step-by-step
+      S2_compact_cot : 精炼 CoT
+    返回: (trace_text, wall_clock_T)
+    """
+    system_prompt = (
+        "You are a precise arithmetic reasoning engine. "
+        "You must evaluate the given expression exactly. "
+        "The expression uses +, -, *, /, ^ for power, and parentheses."
+    )
+
+    if strategy == "S0_direct":
+        user_prompt = (
+            f"Solve the following arithmetic expression exactly:\n\n{expr}\n\n"
+            "Respond with ONLY the final numeric result.\n"
+            "- Do NOT show any intermediate steps.\n"
+            "- Do NOT add explanations.\n"
+            "- Output just the number (or a single signed float)."
+        )
+    elif strategy == "S1_verbose_cot":
+        user_prompt = (
+            f"Solve the following arithmetic expression exactly:\n\n{expr}\n\n"
+            "Think step by step in great detail.\n"
+            "- Explain each intermediate computation.\n"
+            "- Use natural language paragraphs.\n"
+            "- Be intentionally verbose and somewhat repetitive.\n"
+            "- Around 300–600 words is OK.\n"
+            "At the end, clearly state the final numeric result."
+        )
+    elif strategy == "S2_compact_cot":
+        user_prompt = (
+            f"Solve the following arithmetic expression exactly:\n\n{expr}\n\n"
+            "Provide a brief but clear chain-of-thought:\n"
+            "- 3–6 short bullet points or sentences.\n"
+            "- Each step should be concise.\n"
+            "Then give the final numeric result."
+        )
+    else:
+        raise ValueError(f"Unknown strategy: {strategy}")
+
+    t0 = time.perf_counter()
+    resp = client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+        temperature=0.2,
+        max_tokens=512,
+    )
+    t1 = time.perf_counter()
+
+    trace_text = resp.choices[0].message.content
+    T = t1 - t0
+    return trace_text, T
+
+
+# ============================
+# 4. 主实验：真实 LLM + λ_B
 # ============================
 
 def run_llm_scct_experiment(
@@ -183,6 +221,7 @@ def run_llm_scct_experiment(
 
         for strat in strategies:
             print(f"  Strategy {strat} ... ", end="", flush=True)
+
             try:
                 trace_text, T = call_llm(expr, strat)
             except Exception as e:
@@ -197,7 +236,7 @@ def run_llm_scct_experiment(
                     "lambda_B": np.nan,
                     "C_cond": np.nan,
                     "C_p": C_t(prob_bytes),
-                    "model": "Mock-LLM",
+                    "model": MODEL_NAME,
                     "error": str(e),
                 }
                 rows.append(row)
@@ -216,7 +255,7 @@ def run_llm_scct_experiment(
                 "lambda_B": lam,
                 "C_cond": C_cond,
                 "C_p": C_p,
-                "model": "Mock-LLM",
+                "model": MODEL_NAME,
                 "error": "",
             }
             rows.append(row)
@@ -229,6 +268,7 @@ def run_llm_scct_experiment(
 df_llm = run_llm_scct_experiment(problems)
 print("\n=== 实验数据预览 ===")
 print(df_llm.head())
+
 
 # ============================
 # 5. 标度律拟合：结构–时间
@@ -277,6 +317,7 @@ reg_time_S0  = regression_structure_time(df_llm, "S0_direct")
 reg_time_S1  = regression_structure_time(df_llm, "S1_verbose_cot")
 reg_time_S2  = regression_structure_time(df_llm, "S2_compact_cot")
 
+
 # ============================
 # 6. 标度律拟合：结构–工作量
 #   log2 W(x) ≈ a·λ_B + b·log2 N + c
@@ -324,8 +365,9 @@ reg_work_S0  = regression_structure_work(df_llm, "S0_direct")
 reg_work_S1  = regression_structure_work(df_llm, "S1_verbose_cot")
 reg_work_S2  = regression_structure_work(df_llm, "S2_compact_cot")
 
+
 # ============================
-# 7. 各策略统计摘要（写论文用的表）
+# 7. 各策略统计摘要（Table 用）
 # ============================
 
 print("\n=== 各策略 λ_B / W / C_cond 统计摘要 ===")
@@ -336,14 +378,11 @@ summary = (
 )
 print(summary)
 
-# 你可以在论文里挑一两列放成 Table:
-#   strategy vs mean λ_B, mean trace_len_bytes, mean C_cond
 
 # ============================
 # 8. 图像：W vs λ_B（用于论文 Figure）
 # ============================
 
-# 仅简单散点+回归平面在 λ_B 方向的投影
 plt.figure(figsize=(6, 4))
 mask = df_llm["lambda_B"].notna() & (df_llm["trace_len_bytes"] > 0)
 d_plot = df_llm[mask].copy()
@@ -352,9 +391,8 @@ d_plot["log2_W"] = np.log2(d_plot["trace_len_bytes"])
 plt.scatter(d_plot["lambda_B"], d_plot["log2_W"])
 plt.xlabel("λ_B (structural incompressibility)")
 plt.ylabel("log₂ W(x) (trace length)")
-plt.title("Structure–Work Law (All strategies, mock)")
+plt.title("Structure–Work Law (All strategies, real LLM)")
 
-# 画一条在 λ_B 上的简单线性拟合（忽略 N 项，只作为可视化）
 coef_simple = np.polyfit(d_plot["lambda_B"], d_plot["log2_W"], 1)
 lam_grid = np.linspace(d_plot["lambda_B"].min(), d_plot["lambda_B"].max(), 50)
 log2W_fit = coef_simple[0] * lam_grid + coef_simple[1]
@@ -363,26 +401,29 @@ plt.plot(lam_grid, log2W_fit)
 plt.tight_layout()
 plt.show()
 
+
 # ============================
-# 9. 图像：W vs N（log₂W 对 log₂N，规模项）
+# 9. 图像：W vs N（log₂W 对 log₂N）
 # ============================
 
 plt.figure(figsize=(6, 4))
 plt.scatter(np.log2(d_plot["N"]), d_plot["log2_W"])
 plt.xlabel("log₂ N (problem scale)")
 plt.ylabel("log₂ W(x) (trace length)")
-plt.title("Scaling of Work with Problem Size N (mock)")
+plt.title("Scaling of Work with Problem Size N (real LLM)")
 plt.tight_layout()
 plt.show()
 
+
 # ============================
-# 10. 导出 CSV（可作为论文补充材料）
+# 10. 导出 CSV（补充材料）
 # ============================
 
-csv_path = "scct_agi_mock_v1.csv"
+csv_path = "scct_agi_llm_v2.csv"
 df_llm.to_csv(csv_path, index=False)
 print(f"\n已导出数据到: {csv_path}")
 
 print("\n============================")
-print("SCCT-AGI v1 论文验证版实验完成 ✅")
+print("SCCT-AGI v2 真实 LLM 实验完成 ✅")
 print("============================")
+
