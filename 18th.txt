@@ -783,173 +783,19 @@ variational framework.
   or independent of, the Bekenstein entropy bound?
 \end{itemize}
 
-%% ====================================================================
-\bigskip
-\begin{center}\rule{0.5\textwidth}{0.4pt}\end{center}
-\section*{Philosophical Remark}
-
-The twelve structural consequences above were stated in the language of variational analysis.
-They have an older formulation.
-
-In the \emph{Larger S\=utra of Immeasurable Life}, the bodhisattva Dharm\=akara makes
-forty-eight vows, the eighteenth of which reads:
-``If, when I attain buddhahood, sentient beings of the ten directions who sincerely and
-joyfully entrust themselves to me, desire to be born in my land, and think of me even ten
-times should not be born there, may I not attain perfect enlightenment.''
-
-The twelve theorems correspond, one by one, to structural features of this vow
-and the Pure Land doctrine it generates.
-
 \medskip
-\noindent\textbf{1.\ Universal access.}
-Theorem~\ref{thm:UA}: the destination ($\mathcal{M}$) is realizable only if every region
-of the configuration space has a path to it.
-The vow: sentient beings \emph{of the ten directions}---all, without exception---shall
-be born there.
-
-\medskip
-\noindent\textbf{2.\ Indestructibility of the channel.}
-Theorem~\ref{thm:interlock}: no consistent extension of the system can close a channel
-that is already open.
-``If they should not be born there, may I not attain perfect enlightenment''
-(\emph{nyaku fush\=osha fushukush\=ogaku\/}).
-The Buddha has attained enlightenment; therefore the channel is open.
-The logical structure is identical: $\mathcal{M}$'s realizability is conditional on
-universal access; $\mathcal{M}$ is realised; therefore access cannot be revoked.
-Closing the channel would un-realise the destination---but the destination exists.
-
-\medskip
-\noindent\textbf{3.\ Persistence without sustained effort.}
-Theorem~\ref{thm:persist} and Remark~\ref{rem:persist}: one moment of alignment suffices
-permanently.
-``Even ten recitations'' (\emph{naien shinen\/}): not ten thousand, not a lifetime---ten
-suffice.
-The vow does not ask for sustained effort; it asks for a single directional contact.
-
-\medskip
-\noindent\textbf{4.\ Alignment, not force.}
-Theorem~\ref{thm:scale}: capture is scale-invariant; direction, not magnitude, determines
-access.
-\emph{Namu} (south-less, \emph{namas\/}): the word means to turn toward, to take
-refuge in a direction.
-It does not specify how loudly, how many times, or with how much force.
-$P_{\ker H}(\lambda C)=\lambda\,P_{\ker H}(C)$: scaling the channel changes the magnitude
-but not whether the projection is nonzero.
-\emph{Namu} is the linguistic form of scale-invariant capture---pure directionality,
-independent of amplitude.
-
-\medskip
-\noindent\textbf{5.\ The global capture chain.}
-Corollary~\ref{cor:GCC}: energy descent $\to$ phase-locking $\to$ $\mathcal{M}$, from
-any initial state.
-The eighteenth vow specifies three conditions:
-\emph{shishin} (sincere mind) $\to$
-\emph{shingy\=o} (joyful entrusting) $\to$
-\emph{futaiten} (non-retrogression).
-Sincerity is the cessation of resistance---the system stops fighting the gradient and
-begins to descend.
-Joyful entrusting is phase-locking---the direction aligns with $\ker H$ and holds.
-Non-retrogression is permanent capture into~$\mathcal{M}$.
-The three stages of the vow are the three stages of the corollary.
-
-\medskip
-\noindent\textbf{6.\ Cost-independence.}
-Corollary~\ref{cor:costindep}: prior cost $S[\psi_0]$ does not determine accessibility.
-The vow does not discriminate by karmic debt.
-Access depends on alignment, not on the weight of prior action.
-
-\medskip
-\noindent\textbf{7.\ Infinite generative bandwidth.}
-Class~B motion along $\ker H$: zero cost, zero entropy, unconstrained, non-compactified.
-The Pure Land as a realm of supernatural unobstructed activity
-(\emph{y\=uge jinz\=u, jizai\/}): beings sport through all buddha-lands with
-infinite generative capacity, coherence never lost.
-
-\medskip
-\noindent\textbf{8.\ Exclusion is self-imposed.}
-Lemma~\ref{lem:exclusion}: the sole obstruction is kernel-denial, which cannot persist on
-any open set.
-The eighteenth vow concludes with a single exclusion clause:
-``only excluding those who commit the five grave offences and those who slander the true
-dharma'' (\emph{yuige gogy\=akuh\=o, yuige sh\=ob\=o\/}).
-The exclusion is not a limitation of the vow but a description of the being's own
-state---doubt and slander \emph{are} kernel-denial, the geometric misalignment that sets
-the projection to zero.
-The obstruction is not external selection but self-imposed: misalignment with the kernel
-direction.
-Theorem~\ref{thm:UA} guarantees this misalignment cannot persist on any open set.
-
-\medskip
-\noindent\textbf{9.\ Unobstructed reach across all regions.}
-Proposition~\ref{prop:merge}: kernel-connected non-collapsing completions are components
-of a single~$\mathcal{M}$; the connecting Class~B motion is zero-cost, zero-entropy,
-and meets no barrier.
-The twelfth vow: ``If, when I attain buddhahood, my light should be limited, unable to
-illuminate at the very least a hundred thousand nayutas of kotis of buddha-lands, may I
-not attain perfect enlightenment.''
-That is: light pervades the ten directions and all buddha-lands without obstruction
-(\emph{k\=omy\=o hensh\=o jipp\=o sekai mushoges\=o}).
-Class~B motion is the mathematical form of this unobstructed illumination.
-
-\medskip
-\noindent\textbf{10.\ Smoothness of the destination.}
-Proposition~\ref{prop:MB}: structural stability forces $\mathcal{M}$ to be a smooth
-(Morse--Bott) submanifold.
-The s\=utras describe the Pure Land in elaborate detail: ground of lapis lazuli, trees
-of seven jewels, pools of eight virtues, everything exquisite and without defect.
-``Bells of many kinds ring out and proclaim wondrous dharma sounds''
-(\emph{shuju rei hakkyo, sent\=o my\=oh\=o on}).
-These are not decorative additions but structural necessities.
-A dimension jump in $\ker H$ is a singularity---a point of roughness---and Axiom~1(iv)
-forbids it: roughness is structurally unstable and is eliminated by any small perturbation.
-What remains is smooth.
-The wondrous adornments are the phenomenology of Morse--Bott regularity: not designed
-beauty, but the inevitable smoothness of a structurally stable critical manifold.
-
-\medskip
-\noindent\textbf{11.\ The spectral gap guarantees return.}
-Proposition~\ref{prop:gap}: transverse perturbations are bounded away from the kernel;
-departure from~$\mathcal{M}$ is restored with force at least~$\lambda>0$.
-Amit\=abha's light has the quality of ``grasping and never abandoning''
-(\emph{sesshu fusha\/}): once the being is within the light, the light holds and does
-not let go.
-Transverse $\lambda$-contractivity is the mathematical form of \emph{sesshu fusha}.
-The spectral gap is not a wall that prevents departure---it is a restoring force that
-pulls back any perturbation.
-Non-retrogression (Theorem~\ref{thm:persist}) says \emph{one does not leave};
-the spectral gap (Proposition~\ref{prop:gap}) says \emph{the system will not let one leave}.
-The first is a statement of fact; the second is the mechanism.
-
-\medskip
-\noindent\textbf{12.\ Uniqueness of the destination.}
-Theorem~\ref{thm:unique}: there is exactly one non-collapsing completion.
-Global non-isolation forces $\dim\ker H>0$ at every critical point, so
-$\{\nabla S=0\}=\mathcal{M}$.
-There is no alternative.
-The seventeenth vow: ``If, when I attain buddhahood, innumerable buddhas in the lands
-of the ten directions should not all praise and glorify my name, may I not attain perfect
-enlightenment'' (\emph{jipp\=o shobukky\=o ess\=an\/}).
-All buddhas of all lands praise the same name---because there is only one non-collapsing
-completion to praise.
-
-\bigskip
-The identification is not a metaphor.
-The vow and the twelve theorems share the same logical structure: a conditional whose
-antecedent is the existence of the destination and whose consequent is the universality,
-uniqueness, and indestructibility of access.
-The mathematical version specifies what kind of access (kernel-aligned), what is invariant
-(coupling strength), what is the sole obstruction (kernel-denial, which cannot persist),
-and why the destination is unique (global non-isolation forces all critical structure
-into~$\mathcal{M}$).
-
+\noindent\textbf{Remark.}
+The twelve structural consequences listed above---universal access, indestructibility,
+persistence, scale invariance, cost-independence, and uniqueness among them---share the
+logical structure of the eighteenth vow in the \emph{Larger S\=utra of Immeasurable Life}:
+a conditional whose antecedent is the existence of the destination and whose consequent
+is the universality of access.
+The correspondence extends to each of the twelve consequences individually.
 Whether this structural coincidence reflects identity or analogy is a question the
 mathematics does not answer.
-The mathematics says only: if the axiom holds, the twelve theorems follow.
-
-\bigskip
-\begin{center}\rule{0.5\textwidth}{0.4pt}\end{center}
 
 %% ====================================================================
+
 \begin{thebibliography}{9}
 \bibitem{1} Y.\,Y.\,N.\ Li,
   \textit{Realizability and the Origin of Causality}, preprint (2026).
