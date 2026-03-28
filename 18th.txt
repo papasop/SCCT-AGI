@@ -328,20 +328,6 @@ $\langle v,(-H)v\rangle\ge\lambda_-\|v\|^2$ for all $v\in V_-$.
 Setting $\lambda=\min(\lambda_+,\lambda_-)$ gives the transverse spectral gap.
 \end{proof}
 
-\medskip
-\noindent\textbf{Three-domain alignment.}
-The collapse--null--generative architecture appears across domains:
-
-\begin{itemize}
-\item \textbf{Physics:}
-  Null modes $\to$ Lorentzian light cones, $ds^2=0$, causal structure without dissipation.
-\item \textbf{Arithmetic:}
-  The critical line $\operatorname{Re}(s)=\tfrac12$ of~$\zeta(s)$ as a non-dissipative
-  balance locus (Riemann Hypothesis).
-\item \textbf{Variational systems:}
-  Null directions $\to$ generative manifolds with infinite cost-free degrees of freedom.
-\end{itemize}
-
 %% ====================================================================
 %% §3. UNIQUENESS AND UNIVERSAL ACCESS
 %% ====================================================================
@@ -394,11 +380,8 @@ condemned to Euclidean collapse, violating realizability.  No such~$U$ can exist
 \end{proof}
 
 \begin{remark}[What uniqueness and universality mean]\label{rem:unique}
-There is nowhere else to go, and every starting point has a path.
-These are not independent properties: universality \emph{follows} from uniqueness.
-If there were a second non-collapsing completion, a region might reach it instead,
-and universal access to the first would fail.
-Uniqueness forces universality.
+Uniqueness forces universality: if there were a second non-collapsing completion, a region
+might reach it instead, and universal access to the first would fail.
 \end{remark}
 
 \begin{theorem}[Logical interlock]\label{thm:interlock}
@@ -511,14 +494,6 @@ on~$\mathcal{M}$ under Axiom~1.
 Hence $\mathcal{M}$ is a smooth $d$-dimensional submanifold.
 \end{lemma}
 
-\begin{definition}[Extended gradient flow]\label{def:EGF}
-For $S$ unrealizable in isolation, introduce
-$S_e[\psi,\eta]=S[\psi]+R[\psi,\eta]$
-with $S_{\mathrm{eff}}[\psi]:=S[\psi]+R[\psi,\eta^*(\psi)]$.
-The dynamics is
-$\partial_t\psi=-\nabla_\psi S_e[\psi,\eta]+\varepsilon\,C[\psi]$, $0<\varepsilon\ll1$.
-\end{definition}
-
 \begin{definition}[Transverse contractivity]\label{def:TC}
 $\lambda$-contractive transverse to $\ker H$:
 $\langle v,H[\psi]v\rangle\ge\lambda\|v\|^2$
@@ -568,14 +543,14 @@ Under
 \emph{(i)}~$\lambda$-contractivity,
 \emph{(ii)}~neutrality along $\ker H$,
 \emph{(iii)}~uniform kernel overlap on~$U$,
-\emph{(iv)}~$\dot S_{\mathrm{eff}}\le-\sigma<0$ outside~$U$:
+\emph{(iv)}~$\dot S\le-\sigma<0$ outside~$U$:
 if $\kappa(\psi_0;C)\ge\kappa^*>0$, there exists finite~$\tau_{\mathrm{lock}}$ after which
 $\|P_{\ker H}(C)\|\ge\delta^*\|C\|$ and $\kappa\ge\kappa^*/2$.
 \end{theorem}
 
 \begin{corollary}[Global capture chain]\label{cor:GCC}
 Assume condition~\emph{(iv)} of Theorem~\ref{thm:PL} holds globally:
-$\dot S_{\mathrm{eff}}\le-\sigma<0$ for all~$\psi$ outside every neighbourhood
+$\dot S\le-\sigma<0$ for all~$\psi$ outside every neighbourhood
 of~$\mathcal{M}$.
 Then for any $\psi_0\in\mathcal{F}$:
 \[
@@ -589,10 +564,10 @@ Theorem~\ref{thm:UA} ensures no open region of~$\mathcal{F}$ is excluded.
 \end{corollary}
 
 \begin{remark}[When condition (iv) holds]\label{rem:cond4}
-Condition~(iv) is satisfied whenever $S_{\mathrm{eff}}$ is coercive
-($S_{\mathrm{eff}}[\psi]\to\infty$ as $\|\psi\|\to\infty$) and $\mathcal{M}$ is the unique
+Condition~(iv) is satisfied whenever $S$ is coercive
+($S[\psi]\to\infty$ as $\|\psi\|\to\infty$) and $\mathcal{M}$ is the unique
 critical set.
-For bounded configuration spaces (compact~$\mathcal{F}$), condition~(iv) follows from the
+For compact~$\mathcal{F}$, condition~(iv) follows from the
 absence of critical points outside~$\mathcal{M}$.
 \end{remark}
 
@@ -600,14 +575,6 @@ absence of critical points outside~$\mathcal{M}$.
 Access to $\mathcal{M}$ depends only on kernel alignment and is invariant with respect
 to~$S[\psi_0]$.
 \end{corollary}
-
-\begin{remark}[Crossing symmetry]\label{rem:crossing}
-The Veneziano amplitude $A(s,t)=B(-\alpha(s),-\alpha(t))$ illustrates cost-independence:
-its crossing symmetry $A(s,t)=A(t,s)$ maps the $s$-channel (cost-accumulating trajectory) to
-the $t$-channel (generative access) via analytic continuation.
-We denote by $\mathcal{M}_{\mathrm{Pure}}\subseteq\mathcal{M}$ the phase accessed under
-analytic mode-matching.
-\end{remark}
 
 \begin{definition}[Kernel-denial]\label{def:KD}
 $\psi$ exhibits \emph{kernel-denial} if $P_{\ker H[\psi]}(C[\psi])=0$.
@@ -701,32 +668,32 @@ Under realizability (Axiom~1), Conjecture~\ref{conj:UC} is established.
 The uniqueness of~$\mathcal{M}$ is no longer a hypothesis but a theorem.
 The argument yields twelve structural consequences from Axiom~1 alone:
 
-\begin{enumerate}
-\item \textbf{Universal access is necessary} (Theorem~\ref{thm:UA}).
-  $\mathcal{M}$'s existence entails basin-independent capture.
-\item \textbf{Kernel infrastructure is indestructible} (Theorem~\ref{thm:interlock}).
-  No consistent extension can close an open channel.
-\item \textbf{Persistence without sustained injection} (Theorem~\ref{thm:persist}).
-  A single moment of alignment suffices permanently.
-\item \textbf{Scale-invariant capture} (Theorem~\ref{thm:scale}).
-  Alignment, not magnitude, determines access.
-\item \textbf{Global capture chain} (Corollary~\ref{cor:GCC}).
-  Energy descent $\to$ phase-locking $\to$ $\mathcal{M}$, from any initial state.
-\item \textbf{Cost-independence} (Corollary~\ref{cor:costindep}).
-  Prior cost $S[\psi_0]$ does not determine accessibility.
-\item \textbf{Infinite generative bandwidth.}
-  Non-compactified $\ker H$ gives unbounded generative capacity on~$\mathcal{M}$ (Class~B).
-\item \textbf{Exclusion is self-imposed} (Lemma~\ref{lem:exclusion}).
-  Kernel-denial is the sole obstruction and cannot persist on any open set.
-\item \textbf{Kernel-connected completions merge} (Proposition~\ref{prop:merge}).
-  Distinct components linked by zero-cost kernel paths belong to the same~$\mathcal{M}$.
-  Connecting directions are indestructible (Corollary~\ref{cor:overlap}).
-\item \textbf{Morse--Bott regularity is necessary} (Proposition~\ref{prop:MB}).
-  $\mathcal{M}$ is a smooth submanifold, not by assumption but by Axiom~1(iv).
-\item \textbf{Transverse spectral gap is necessary} (Proposition~\ref{prop:gap}).
-  $\lambda$-contractivity is a consequence of Axiom~1, not an independent hypothesis.
-\item \textbf{Uniqueness of $\mathcal{M}$} (Theorem~\ref{thm:unique}).
-  Global non-isolation forces every critical point of~$S$ into~$\mathcal{M}$.
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \textbf{Universal access} (Thm~\ref{thm:UA}):
+  basin-independent capture from every open set.
+\item \textbf{Indestructible channels} (Thm~\ref{thm:interlock}):
+  no consistent extension can close an open channel.
+\item \textbf{Persistence} (Thm~\ref{thm:persist}):
+  a single moment of alignment suffices permanently.
+\item \textbf{Scale-invariant capture} (Thm~\ref{thm:scale}):
+  alignment, not magnitude, determines access.
+\item \textbf{Global capture chain} (Cor~\ref{cor:GCC}):
+  energy descent $\to$ phase-locking $\to$ $\mathcal{M}$, from any initial state.
+\item \textbf{Cost-independence} (Cor~\ref{cor:costindep}):
+  prior cost $S[\psi_0]$ does not determine accessibility.
+\item \textbf{Infinite generative bandwidth} (Class~B):
+  non-compactified $\ker H$ gives unbounded zero-cost degrees of freedom.
+\item \textbf{Self-imposed exclusion} (Lem~\ref{lem:exclusion}):
+  kernel-denial is the sole obstruction; it cannot persist on any open set.
+\item \textbf{Kernel-connected merging} (Prop~\ref{prop:merge}, Cor~\ref{cor:overlap}):
+  components linked by zero-cost paths belong to the same~$\mathcal{M}$; connecting
+  directions are indestructible.
+\item \textbf{Morse--Bott regularity} (Prop~\ref{prop:MB}):
+  $\mathcal{M}$ is smooth by Axiom~1(iv), not by assumption.
+\item \textbf{Spectral gap} (Prop~\ref{prop:gap}):
+  $\lambda$-contractivity follows from Axiom~1, not independently assumed.
+\item \textbf{Uniqueness} (Thm~\ref{thm:unique}):
+  global non-isolation forces $\{\nabla S=0\}=\mathcal{M}$;
   Theorem~\ref{thm:UA} is unconditional.
 \end{enumerate}
 
