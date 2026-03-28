@@ -103,9 +103,6 @@ Null space: $\ker H=\{v\mid Hv=0\}$.
 Null-mode condition: $\dim\ker H>0$.
 \end{definition}
 
-\medskip
-We now state the conjecture that Axiom~1 will be shown to establish.
-
 \begin{conjecture}[Universal Completion]\label{conj:UC}
 Let~$\mathcal{F}$ be a configuration space and $S:\mathcal{F}\to\mathbb{R}_{\ge0}$ a cost
 functional.
@@ -157,12 +154,6 @@ The path requires no force, only direction.
 Every structure in this paper is an algebraic consequence of Axiom~1.
 We derive them in sequence: nontrivial kernel, indefiniteness, Lorentzian signature,
 Morse--Bott regularity, and the transverse spectral gap.
-
-\begin{lemma}[Quadratic form vanishing]\label{lem:QF}
-$\delta\psi\in\ker H$ implies $\langle\delta\psi,H\delta\psi\rangle=0$.
-Conversely, if $H\ge0$ and $\langle\delta\psi,H\delta\psi\rangle=0$, then
-$\delta\psi\in\ker H$.
-\end{lemma}
 
 \begin{theorem}[Nullity criterion]\label{thm:nullity}
 \emph{(Necessity)} Realizability implies $\dim\ker H[\psi^*]>0$.
@@ -366,7 +357,6 @@ for every open set $U\subset\mathcal{F}$, there exists $\psi\in U$ such that
   \|P_{\ker H[\psi]}(C[\psi])\|>0.
 \]
 $\mathcal{M}$'s realizability entails $C$'s universality.
-A generative manifold that fails to provide universal access is not realizable.
 \end{theorem}
 
 \begin{proof}
@@ -604,8 +594,6 @@ Condition~(ii) gives $\dot\gamma(s)\in\ker H[\gamma(s)]$, so
 $\langle\dot\gamma(s),H[\gamma(s)]\dot\gamma(s)\rangle=0$ for all~$s$.
 By Lemma~\ref{lem:zerocost}, motion along $\ker H$ incurs zero second-order cost.
 Condition~(i) strengthens this to exact constancy of~$S$.
-(In fact, condition~(i) is a consequence of~(ii) together with the endpoint
-condition $\nabla S[\gamma(0)]=0$; we state it separately for clarity.)
 
 Differentiating,
 \[
@@ -696,12 +684,11 @@ variational framework.
   Extension to $(1+3)$-dimensional spacetime requires additional structure.
 
 \item \textbf{Quantum.}
-  Does the Gromov non-squeezing bound~[3] constrain noise on~$\mathcal{M}$, or is the
-  Clausius relation $\sigma^2=2dc\cdot T_{\mathrm{tol}}$ the sole thermal input?
+  Does the Gromov non-squeezing theorem~[3] constrain fluctuations on~$\mathcal{M}$?
 
 \item \textbf{Bekenstein bound.}
-  Is $dc\le 2/\hbar$ (from $dc\,\sigma_1=1$ and $\sigma_1\ge\hbar/2$) related to,
-  or independent of, the Bekenstein entropy bound?
+  Is there a maximum information density on~$\mathcal{M}$ related to
+  the Bekenstein entropy bound?
 \end{itemize}
 
 \medskip
