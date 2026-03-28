@@ -83,14 +83,23 @@ $S$ admits an attainable, nontrivial extremum $\psi^*\neq0$ satisfying:
       dimension.  No critical point of~$S$ is isolated.
 \item[\emph{(iv)}] \textbf{Structural stability:} (i)--(iii) persist under small perturbations
       of~$S$.
+\item[\emph{(v)}] \textbf{Singular separation:}
+      Let $\Sigma_S=\{\psi\in\mathcal{F}: S\text{ is not twice Fr\'echet-differentiable
+      at }\psi\}$.
+      The closure of
+      $\{\psi\in\mathcal{F}:\nabla S[\psi]=0,\;\dim\ker H[\psi]>0\}$
+      does not intersect~$\Sigma_S$.
 \end{enumerate}
 \end{axiom}
 
-\begin{remark}[Why global non-isolation is natural]\label{rem:global}
+\begin{remark}[Why (iii) and (v) are natural]\label{rem:global}
 The global form of~(iii) says the system excludes isolated critical structure at every
 scale, not just at the distinguished extremum.
 Since realizability is the assertion that the system does not permit the annihilation of
 all structure, it is natural to require this at all critical points, not only at one.
+Condition~(v) says that~$\mathcal{M}$ is separated from singular points of~$S$: the
+generative manifold lives entirely in the regular domain and cannot be eroded by
+singularities at its boundary.
 \end{remark}
 
 If $S\ge0$ with $S=0\Leftrightarrow\psi\equiv0$, gradient flow drives every nontrivial state
@@ -445,6 +454,17 @@ on~$\mathcal{M}$.
 No sustained effort is required.
 \end{remark}
 
+\begin{corollary}[Singular indestructibility]\label{cor:sing}
+Under Axiom~1, no continuous trajectory starting on~$\mathcal{M}$ can reach the
+singular set~$\Sigma_S$ in finite or infinite time.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{thm:persist}, $\psi(t)\in\mathcal{M}$ for all $t\ge t_0$.
+By Axiom~1(v), $\overline{\mathcal{M}}\cap\Sigma_S=\varnothing$,
+so $\mathrm{dist}(\psi(t),\Sigma_S)>0$ for all~$t$.
+\end{proof}
+
 \begin{remark}[Two classes of motion on $\mathcal{M}$]\label{rem:classes}
 Motion on~$\mathcal{M}$ decomposes into:
 
@@ -644,8 +664,9 @@ The argument yields twelve structural consequences from Axiom~1 alone:
   basin-independent capture from every open set.
 \item \textbf{Indestructible channels} (Thm~\ref{thm:interlock}):
   no consistent extension can close an open channel.
-\item \textbf{Persistence} (Thm~\ref{thm:persist}):
-  a single moment of alignment suffices permanently.
+\item \textbf{Persistence} (Thm~\ref{thm:persist}, Cor~\ref{cor:sing}):
+  a single moment of alignment suffices permanently; no singularity of~$S$
+  can be reached from~$\mathcal{M}$.
 \item \textbf{Scale-invariant capture} (Thm~\ref{thm:scale}):
   alignment, not magnitude, determines access.
 \item \textbf{Global capture chain} (Cor~\ref{cor:GCC}):
