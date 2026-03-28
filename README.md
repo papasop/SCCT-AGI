@@ -35,8 +35,8 @@ The paper itself contains a condensed remark noting the structural coincidence. 
 ### 3. Persistence Without Sustained Effort
 
 - **Theorem:** A single moment of alignment at t₀ suffices for permanent residence on M.
-- **Mathematics:** The fractional (Caputo) derivative has long memory. The initial alignment is encoded in the kernel and never forgotten. Transverse perturbations decay via Mittag-Leffler (algebraic, not exponential).
-- **Pure Land:** 乃至十念 (naien shinen) — "even ten recitations." Not ten thousand, not a lifetime — ten suffice, because persistence requires only one moment of kernel alignment. The fractional memory kernel remembers that moment forever. The vow does not ask for sustained effort; it asks for a single directional contact.
+- **Mathematics:** The Lyapunov functional V(t) = dist(ψ(t), M)² satisfies V̇ ≤ −λV by transverse λ-contractivity. Since V(t₀) = 0 (ψ(t₀) ∈ M), V(t) = 0 for all t ≥ t₀. Permanent residence from a single moment of contact.
+- **Pure Land:** 乃至十念 (naien shinen) — "even ten recitations." Not ten thousand, not a lifetime — ten suffice, because persistence requires only one moment of kernel alignment. The vow does not ask for sustained effort; it asks for a single directional contact.
 
 ---
 
@@ -137,7 +137,7 @@ Axiom 1 (Realizability)
 │    │
 │    └─→ Direction preservation      (Cor 35: specific kernel directions preserved)
 │
-├─→ Persistence                     (Thm 9: fractional memory + spectral gap)             [3]
+├─→ Persistence                     (Thm 9: Lyapunov stability + spectral gap)             [3]
 │
 ├─→ Scale invariance                (Thm 19: P(λC) = λP(C))                              [4]
 │
